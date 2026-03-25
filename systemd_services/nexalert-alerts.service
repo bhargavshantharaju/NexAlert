@@ -1,0 +1,17 @@
+[Unit]
+Description=NexAlert SMS/Call Alert Service
+After=nexalert.service
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/nexalert_v3
+Environment="PATH=/home/pi/nexalert_v3/venv/bin"
+ExecStart=/home/pi/nexalert_v3/venv/bin/python3 /home/pi/nexalert_v3/backend/services/alert_service.py
+Restart=always
+RestartSec=30
+StandardOutput=append:/home/pi/nexalert_v3/logs/alert_service.log
+StandardError=append:/home/pi/nexalert_v3/logs/alert_service_error.log
+
+[Install]
+WantedBy=multi-user.target

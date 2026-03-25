@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexAlert Dashboard - Command Center</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f1419;
+            color: #e1e8ed;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 350px;
+            background: #1a1f2e;
+            border-right: 2px solid #2d3748;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .header {
+            padding: 20px;
+            background: linear-gradient(135deg, #00d9ff, #7b2cbf);
+            border-bottom: 3px solid #00d9ff;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 15px;
+            background: #0f1419;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .stat-card {
+            background: #1a1f2e;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #2d3748;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #00d9ff;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #8899a6;
+            margin-top: 5px;
+        }
+
+        .section {
+            padding: 15px;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #00d9ff;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-list, .alert-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .user-item, .alert-item {
+            background: #0f1419;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #2d3748;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-item:hover, .alert-item:hover {
+            border-color: #00d9ff;
+            transform: translateX(5px);
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .user-status {
+            font-size: 11px;
+            color: #8899a6;
+        }
+
+        .status-online {
+            color: #00ff88;
+        }
+
+        .status-offline {
+            color: #ff4444;
+        }
+
+        .alert-type {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .alert-time {
+            font-size: 11px;
+            color: #8899a6;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .toolbar {
+            background: #1a1f2e;
+            padding: 15px 20px;
+            border-bottom: 2px solid #2d3748;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #00d9ff;
+            border: none;
+            border-radius: 8px;
+            color: #0f1419;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: #00a8cc;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #ff4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #cc0000;
+        }
+
+        #map {
+            flex: 1;
+            width: 100%;
+        }
+
+        .legend {
+            background: rgba(26, 31, 46, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            border: 2px solid #00d9ff;
+            min-width: 200px;
+        }
+
+        .legend-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #00d9ff;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .legend-icon {
+            font-size: 20px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f1419;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2d3748;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00d9ff;
+        }
+
+        .broadcast-panel {
+            background: #1a1f2e;
+            padding: 20px;
+            border-top: 2px solid #2d3748;
+        }
+
+        #broadcast-input {
+            width: 100%;
+            padding: 12px;
+            background: #0f1419;
+            border: 2px solid #2d3748;
+            border-radius: 8px;
+            color: #e1e8ed;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        #broadcast-input:focus {
+            outline: none;
+            border-color: #00d9ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="header">
+            <h1>🚨 NexAlert</h1>
+            <div class="subtitle">Emergency Command Center</div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-users">0</div>
+                <div class="stat-label">USERS ONLINE</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-alerts">0</div>
+                <div class="stat-label">ACTIVE ALERTS</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <span>👥 Network Users</span>
+                <button class="btn" onclick="refreshUsers()">🔄</button>
+            </div>
+            <div class="user-list" id="user-list"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">
+                <span>🚨 Emergency Alerts</span>
+                <button class="btn btn-danger" onclick="clearResolvedAlerts()">Clear</button>
+            </div>
+            <div class="alert-list" id="alert-list"></div>
+        </div>
+
+        <div class="broadcast-panel">
+            <input type="text" id="broadcast-input" placeholder="Broadcast message to all users...">
+            <button class="btn" onclick="sendBroadcast()" style="width: 100%;">📢 Send Broadcast</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="toolbar">
+            <button class="btn" onclick="centerMap()">🎯 Center Map</button>
+            <button class="btn" onclick="toggleTraffic()">🚦 Traffic</button>
+            <button class="btn" onclick="toggleSatellite()">🛰️ Satellite</button>
+            <button class="btn" onclick="exportData()">💾 Export Data</button>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="legend">
+            <div class="legend-title">Map Legend</div>
+            <div class="legend-item">
+                <span class="legend-icon">🟢</span>
+                <span>Online User</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">⚪</span>
+                <span>Offline User</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">🚨</span>
+                <span>Emergency Alert</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-icon">📍</span>
+                <span>Base Station</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+        let map;
+        let socket;
+        let markers = {};
+        let alertMarkers = {};
+        let trafficLayer;
+        let allUsers = [];
+        let allAlerts = [];
+
+        // Initialize Google Map
+        function initMap() {
+            const center = { lat: 12.9716, lng: 77.5946 }; // Bengaluru
+            
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: center,
+                mapTypeId: 'roadmap',
+                styles: [
+                    { elementType: "geometry", stylers: [{ color: "#1a1f2e" }] },
+                    { elementType: "labels.text.stroke", stylers: [{ color: "#0f1419" }] },
+                    { elementType: "labels.text.fill", stylers: [{ color: "#8899a6" }] },
+                    {
+                        featureType: "road",
+                        elementType: "geometry",
+                        stylers: [{ color: "#2d3748" }]
+                    },
+                    {
+                        featureType: "water",
+                        elementType: "geometry",
+                        stylers: [{ color: "#00d9ff" }, { lightness: -25 }]
+                    }
+                ]
+            });
+
+            trafficLayer = new google.maps.TrafficLayer();
+
+            // Add base station marker
+            new google.maps.Marker({
+                position: center,
+                map: map,
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 15,
+                    fillColor: "#7b2cbf",
+                    fillOpacity: 1,
+                    strokeColor: "#00d9ff",
+                    strokeWeight: 3
+                },
+                title: "NexAlert Base Station"
+            });
+        }
+
+        // Initialize WebSocket
+        function initSocket() {
+            socket = io(API_BASE);
+
+            socket.on('connect', () => {
+                console.log('✅ Dashboard connected to server');
+            });
+
+            socket.on('new_alert', (alert) => {
+                addAlert(alert);
+                addAlertMarker(alert);
+            });
+
+            socket.on('user_status_changed', (data) => {
+                updateUserMarker(data.user_id, data.is_online);
+            });
+
+            socket.on('location_updated', (data) => {
+                updateUserLocation(data.user_id, data.latitude, data.longitude);
+            });
+
+            socket.on('new_user_joined', (user) => {
+                allUsers.push(user);
+                renderUsers();
+                updateStats();
+            });
+        }
+
+        // Fetch users
+        async function refreshUsers() {
+            try {
+                const response = await fetch(`${API_BASE}/api/users`);
+                const data = await response.json();
+                allUsers = data.users;
+                renderUsers();
+                updateUserMarkers();
+                updateStats();
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        }
+
+        // Render user list
+        function renderUsers() {
+            const list = document.getElementById('user-list');
+            list.innerHTML = '';
+
+            allUsers.forEach(user => {
+                const div = document.createElement('div');
+                div.className = 'user-item';
+                div.onclick = () => focusOnUser(user);
+
+                const statusClass = user.is_online ? 'status-online' : 'status-offline';
+                const statusText = user.is_online ? '🟢 Online' : '⚪ Offline';
+
+                div.innerHTML = `
+                    <div class="user-name">${user.full_name}</div>
+                    <div class="user-status ${statusClass}">${statusText} • ${user.phone_number}</div>
+                `;
+
+                list.appendChild(div);
+            });
+        }
+
+        // Update user markers on map
+        function updateUserMarkers() {
+            allUsers.forEach(user => {
+                if (user.latitude && user.longitude) {
+                    const position = { lat: user.latitude, lng: user.longitude };
+
+                    if (markers[user.id]) {
+                        markers[user.id].setPosition(position);
+                    } else {
+                        markers[user.id] = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 10,
+                                fillColor: user.is_online ? "#00ff88" : "#8899a6",
+                                fillOpacity: 1,
+                                strokeColor: "#ffffff",
+                                strokeWeight: 2
+                            },
+                            title: user.full_name
+                        });
+
+                        const infoWindow = new google.maps.InfoWindow({
+                            content: `
+                                <div style="color: #0f1419; padding: 10px;">
+                                    <strong>${user.full_name}</strong><br>
+                                    ${user.phone_number}<br>
+                                    Status: ${user.is_online ? 'Online' : 'Offline'}
+                                </div>
+                            `
+                        });
+
+                        markers[user.id].addListener('click', () => {
+                            infoWindow.open(map, markers[user.id]);
+                        });
+                    }
+                }
+            });
+        }
+
+        function updateUserMarker(userId, isOnline) {
+            const user = allUsers.find(u => u.id === userId);
+            if (user) {
+                user.is_online = isOnline;
+                if (markers[userId]) {
+                    markers[userId].setIcon({
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 10,
+                        fillColor: isOnline ? "#00ff88" : "#8899a6",
+                        fillOpacity: 1,
+                        strokeColor: "#ffffff",
+                        strokeWeight: 2
+                    });
+                }
+                renderUsers();
+            }
+        }
+
+        function updateUserLocation(userId, lat, lng) {
+            const user = allUsers.find(u => u.id === userId);
+            if (user) {
+                user.latitude = lat;
+                user.longitude = lng;
+                updateUserMarkers();
+            }
+        }
+
+        function focusOnUser(user) {
+            if (user.latitude && user.longitude) {
+                map.setCenter({ lat: user.latitude, lng: user.longitude });
+                map.setZoom(16);
+                if (markers[user.id]) {
+                    google.maps.event.trigger(markers[user.id], 'click');
+                }
+            }
+        }
+
+        // Fetch alerts
+        async function refreshAlerts() {
+            try {
+                const response = await fetch(`${API_BASE}/api/alerts?resolved=false`);
+                const data = await response.json();
+                allAlerts = data.alerts;
+                renderAlerts();
+                updateAlertMarkers();
+                updateStats();
+            } catch (error) {
+                console.error('Error fetching alerts:', error);
+            }
+        }
+
+        function renderAlerts() {
+            const list = document.getElementById('alert-list');
+            list.innerHTML = '';
+
+            if (allAlerts.length === 0) {
+                list.innerHTML = '<div style="text-align: center; padding: 20px; color: #8899a6;">No active alerts</div>';
+                return;
+            }
+
+            allAlerts.forEach(alert => {
+                const div = document.createElement('div');
+                div.className = 'alert-item';
+                div.onclick = () => focusOnAlert(alert);
+
+                div.innerHTML = `
+                    <div class="alert-type">${alert.alert_type.replace('_', ' ').toUpperCase()}</div>
+                    <div class="alert-time">${alert.user.full_name} • ${new Date(alert.created_at).toLocaleTimeString()}</div>
+                `;
+
+                list.appendChild(div);
+            });
+        }
+
+        function updateAlertMarkers() {
+            allAlerts.forEach(alert => {
+                if (alert.latitude && alert.longitude && !alertMarkers[alert.id]) {
+                    const position = { lat: alert.latitude, lng: alert.longitude };
+
+                    alertMarkers[alert.id] = new google.maps.Marker({
+                        position: position,
+                        map: map,
+                        icon: {
+                            url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+                                    <circle cx="20" cy="20" r="18" fill="#ff4444" stroke="#ffffff" stroke-width="3"/>
+                                    <text x="20" y="27" font-size="20" text-anchor="middle" fill="#ffffff">🚨</text>
+                                </svg>
+                            `),
+                            scaledSize: new google.maps.Size(40, 40)
+                        },
+                        title: alert.alert_type,
+                        animation: google.maps.Animation.BOUNCE
+                    });
+
+                    const infoWindow = new google.maps.InfoWindow({
+                        content: `
+                            <div style="color: #0f1419; padding: 10px;">
+                                <strong style="color: #ff4444;">EMERGENCY ALERT</strong><br>
+                                Type: ${alert.alert_type.replace('_', ' ').toUpperCase()}<br>
+                                From: ${alert.user.full_name}<br>
+                                Time: ${new Date(alert.created_at).toLocaleString()}<br>
+                                ${alert.description ? `<br>${alert.description}` : ''}
+                            </div>
+                        `
+                    });
+
+                    alertMarkers[alert.id].addListener('click', () => {
+                        infoWindow.open(map, alertMarkers[alert.id]);
+                    });
+                }
+            });
+        }
+
+        function addAlert(alert) {
+            allAlerts.unshift(alert);
+            renderAlerts();
+            updateStats();
+        }
+
+        function addAlertMarker(alert) {
+            updateAlertMarkers();
+        }
+
+        function focusOnAlert(alert) {
+            if (alert.latitude && alert.longitude) {
+                map.setCenter({ lat: alert.latitude, lng: alert.longitude });
+                map.setZoom(16);
+                if (alertMarkers[alert.id]) {
+                    google.maps.event.trigger(alertMarkers[alert.id], 'click');
+                }
+            }
+        }
+
+        async function clearResolvedAlerts() {
+            // This would resolve all active alerts
+            if (confirm('Mark all alerts as resolved?')) {
+                for (const alert of allAlerts) {
+                    await fetch(`${API_BASE}/api/alerts/${alert.id}/resolve`, {
+                        method: 'POST'
+                    });
+                }
+                refreshAlerts();
+            }
+        }
+
+        // Update stats
+        function updateStats() {
+            document.getElementById('stat-users').textContent = allUsers.filter(u => u.is_online).length;
+            document.getElementById('stat-alerts').textContent = allAlerts.length;
+        }
+
+        // Broadcast message
+        async function sendBroadcast() {
+            const input = document.getElementById('broadcast-input');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            try {
+                await fetch(`${API_BASE}/api/messages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sender_id: 1, // Dashboard user
+                        receiver_id: null,
+                        content: message,
+                        is_broadcast: true
+                    })
+                });
+
+                input.value = '';
+                alert('✅ Broadcast sent to all users');
+            } catch (error) {
+                alert('❌ Failed to send broadcast');
+            }
+        }
+
+        // Map controls
+        function centerMap() {
+            map.setCenter({ lat: 12.9716, lng: 77.5946 });
+            map.setZoom(13);
+        }
+
+        function toggleTraffic() {
+            if (trafficLayer.getMap()) {
+                trafficLayer.setMap(null);
+            } else {
+                trafficLayer.setMap(map);
+            }
+        }
+
+        function toggleSatellite() {
+            if (map.getMapTypeId() === 'roadmap') {
+                map.setMapTypeId('hybrid');
+            } else {
+                map.setMapTypeId('roadmap');
+            }
+        }
+
+        function exportData() {
+            const data = {
+                users: allUsers,
+                alerts: allAlerts,
+                timestamp: new Date().toISOString()
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nexalert_data_${Date.now()}.json`;
+            a.click();
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            initMap();
+            initSocket();
+            refreshUsers();
+            refreshAlerts();
+            
+            // Refresh data every 10 seconds
+            setInterval(() => {
+                refreshUsers();
+                refreshAlerts();
+            }, 10000);
+        };
+    </script>
+</body>
+</html>

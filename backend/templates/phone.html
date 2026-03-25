@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NexAlert - Emergency Network</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/phone.css') }}">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+    <!-- Registration Screen -->
+    <div id="registration-screen" class="screen active">
+        <div class="logo">
+            <div class="logo-icon">🚨</div>
+            <h1>NexAlert</h1>
+            <p class="tagline">Emergency Communication Network</p>
+        </div>
+        
+        <form id="registration-form">
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" placeholder="Enter your name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone-number">Phone Number</label>
+                <input type="tel" id="phone-number" placeholder="+91 9876543210" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Choose a username" required>
+            </div>
+            
+            <button type="submit" class="btn-primary">Join Network</button>
+        </form>
+        
+        <div class="network-info">
+            <p>📡 Connected to: <strong>NexAlert Emergency Hotspot</strong></p>
+        </div>
+    </div>
+
+    <!-- Main App Screen -->
+    <div id="main-screen" class="screen">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="user-info">
+                <div class="user-avatar">👤</div>
+                <div>
+                    <div class="user-name" id="display-name">User</div>
+                    <div class="user-status">🟢 Online</div>
+                </div>
+            </div>
+            <button id="btn-logout" class="btn-icon">🚪</button>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="messages">💬 Chat</button>
+            <button class="tab-btn" data-tab="sos">🚨 SOS</button>
+            <button class="tab-btn" data-tab="contacts">👥 Contacts</button>
+        </div>
+
+        <!-- Messages Tab -->
+        <div id="messages-tab" class="tab-content active">
+            <div class="message-controls">
+                <select id="message-recipient">
+                    <option value="broadcast">📢 Broadcast to All</option>
+                </select>
+                <button id="btn-refresh-users" class="btn-icon">🔄</button>
+            </div>
+            
+            <div id="messages-container" class="messages-container"></div>
+            
+            <div class="message-input-area">
+                <input type="text" id="message-input" placeholder="Type your message..." />
+                <button id="btn-send-message" class="btn-send">📤</button>
+            </div>
+        </div>
+
+        <!-- SOS Tab -->
+        <div id="sos-tab" class="tab-content">
+            <div class="sos-header">
+                <h2>Emergency SOS</h2>
+                <p>Select emergency type below</p>
+            </div>
+            
+            <div class="sos-grid" id="sos-grid"></div>
+            
+            <div class="sos-details" id="sos-details-form" style="display: none;">
+                <h3>Alert Details</h3>
+                <textarea id="sos-description" placeholder="Describe the emergency (optional)"></textarea>
+                <button id="btn-send-sos" class="btn-danger">🚨 Send Alert</button>
+                <button id="btn-cancel-sos" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Contacts Tab -->
+        <div id="contacts-tab" class="tab-content">
+            <div class="contacts-header">
+                <h2>My Contacts</h2>
+                <button id="btn-sync-contacts" class="btn-primary">🔄 Sync Contacts</button>
+            </div>
+            
+            <div class="contacts-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="online">Online</button>
+                <button class="filter-btn" data-filter="network">On Network</button>
+            </div>
+            
+            <div id="contacts-list" class="contacts-list"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/phone.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+[Unit]
+Description=NexAlert v3.0 Emergency Communication System
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/nexalert_v3
+Environment="PATH=/home/pi/nexalert_v3/venv/bin"
+ExecStart=/home/pi/nexalert_v3/venv/bin/python3 /home/pi/nexalert_v3/backend/app.py
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/pi/nexalert_v3/logs/nexalert.log
+StandardError=append:/home/pi/nexalert_v3/logs/nexalert_error.log
+
+[Install]
+WantedBy=multi-user.target
