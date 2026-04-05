@@ -1,0 +1,56 @@
+[Unit]
+Description=NexAlert v3.0 - Autonomous Solar-Powered Emergency Mesh Platform
+Documentation=https://nexalert.io
+After=network.target syslog.target
+Wants=network-online.target
+StartLimitBurst=5
+StartLimitIntervalSec=60
+
+[Service]
+Type=simple
+User=root
+Group=root
+
+# Working directory
+WorkingDirectory=/opt/nexalert
+
+# Python virtual environment
+Environment="PATH=/opt/nexalert/venv/bin"
+Environment="PYTHONUNBUFFERED=1"
+Environment="FLASK_ENV=production"
+
+# Start command
+ExecStart=/opt/nexalert/venv/bin/python /opt/nexalert/app/app.py
+
+# Restart policy for crash recovery
+Restart=always
+RestartSec=10
+MaxStartRetries=5
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/nexalert
+
+# Standard output/error logging to journalctl
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nexalert
+SyslogFacility=local0
+
+# Process limits
+LimitNOFILE=65535
+LimitNPROC=512
+
+# Timeout settings
+TimeoutStopSec=30
+KillMode=process
+
+# Socket activation (optional, for future enhancements)
+# Accept=yes
+# ListenStream=5000
+
+[Install]
+WantedBy=multi-user.target

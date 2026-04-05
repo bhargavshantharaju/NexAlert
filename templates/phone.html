@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexAlert - Mobile Emergency Communication</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div id="app" class="mobile-app">
+        <!-- Registration Screen -->
+        <div id="registration-screen" class="screen active">
+            <div class="container">
+                <div class="header">
+                    <h1>NexAlert</h1>
+                    <p class="subtitle">Emergency Mesh Network</p>
+                </div>
+                <form id="registration-form">
+                    <div class="form-group">
+                        <label for="reg-name">Full Name</label>
+                        <input type="text" id="reg-name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-phone">Phone Number</label>
+                        <input type="tel" id="reg-phone" placeholder="+1234567890" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email (Optional)</label>
+                        <input type="email" id="reg-email" placeholder="your.email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <input type="password" id="reg-password" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </form>
+                <div class="form-footer">
+                    <p>Already registered? <a href="#" onclick="switchScreen('login')">Login</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen">
+            <div class="container">
+                <div class="header">
+                    <h1>NexAlert</h1>
+                    <p class="subtitle">Emergency Mesh Network</p>
+                </div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-phone">Phone Number</label>
+                        <input type="tel" id="login-phone" placeholder="+1234567890" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+                <div class="form-footer">
+                    <p>New user? <a href="#" onclick="switchScreen('registration')">Register</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App Screen (Tabbed Interface) -->
+        <div id="main-screen" class="screen">
+            <!-- Tab Navigation -->
+            <div class="tabs">
+                <button class="tab-button active" data-tab="chat" onclick="switchTab('chat')">
+                    <span class="icon">💬</span> Chat
+                </button>
+                <button class="tab-button" data-tab="sos" onclick="switchTab('sos')">
+                    <span class="icon">🆘</span> SOS
+                </button>
+                <button class="tab-button" data-tab="contacts" onclick="switchTab('contacts')">
+                    <span class="icon">👥</span> Contacts
+                </button>
+                <button class="tab-button" data-tab="profile" onclick="switchTab('profile')">
+                    <span class="icon">👤</span> Profile
+                </button>
+            </div>
+
+            <!-- Chat Tab -->
+            <div id="chat-tab" class="tab-content active">
+                <div class="tab-header">
+                    <h2>Messages</h2>
+                </div>
+                <div id="chat-list" class="message-list">
+                    <div class="placeholder">No messages yet</div>
+                </div>
+                <div class="message-input-area">
+                    <input type="text" id="message-input" placeholder="Type a message..." maxlength="500">
+                    <button id="send-message-btn" class="btn-send">📤</button>
+                </div>
+            </div>
+
+            <!-- SOS Tab -->
+            <div id="sos-tab" class="tab-content">
+                <div class="tab-header">
+                    <h2>Emergency Alert</h2>
+                    <p class="subtitle">Select emergency type and trigger</p>
+                </div>
+                
+                <div class="sos-category-grid">
+                    <div class="category-btn" data-category="1" onclick="selectSOSCategory(1)">Medical</div>
+                    <div class="category-btn" data-category="2" onclick="selectSOSCategory(2)">Fire</div>
+                    <div class="category-btn" data-category="3" onclick="selectSOSCategory(3)">Flood</div>
+                    <div class="category-btn" data-category="4" onclick="selectSOSCategory(4)">Earthquake</div>
+                    <div class="category-btn" data-category="5" onclick="selectSOSCategory(5)">Accident</div>
+                    <div class="category-btn" data-category="6" onclick="selectSOSCategory(6)">Violence</div>
+                    <div class="category-btn" data-category="7" onclick="selectSOSCategory(7)">Nat. Disaster</div>
+                    <div class="category-btn" data-category="8" onclick="selectSOSCategory(8)">Power Outage</div>
+                    <div class="category-btn" data-category="9" onclick="selectSOSCategory(9)">Gas Leak</div>
+                    <div class="category-btn" data-category="10" onclick="selectSOSCategory(10)">Missing Person</div>
+                    <div class="category-btn" data-category="11" onclick="selectSOSCategory(11)">Animal Attack</div>
+                    <div class="category-btn" data-category="12" onclick="selectSOSCategory(12)">Other</div>
+                </div>
+
+                <div id="sos-form" class="hidden">
+                    <div class="form-group">
+                        <label>Selected: <span id="selected-category">None</span></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="severity-level">Severity</label>
+                        <select id="severity-level">
+                            <option value="1">Low</option>
+                            <option value="2">Medium</option>
+                            <option value="3" selected>High</option>
+                            <option value="4">Critical</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sos-description">Description</label>
+                        <textarea id="sos-description" placeholder="Describe the situation..." rows="4"></textarea>
+                    </div>
+                    <button id="trigger-sos-btn" class="btn btn-danger btn-block">TRIGGER SOS ALERT</button>
+                </div>
+            </div>
+
+            <!-- Contacts Tab -->
+            <div id="contacts-tab" class="tab-content">
+                <div class="tab-header">
+                    <h2>Emergency Contacts</h2>
+                    <button class="btn btn-small" onclick="showAddContactForm()">+ Add</button>
+                </div>
+
+                <div id="add-contact-form" class="contact-form hidden">
+                    <input type="text" id="contact-name" placeholder="Contact Name" required>
+                    <input type="tel" id="contact-phone" placeholder="Phone Number" required>
+                    <input type="email" id="contact-email" placeholder="Email (optional)">
+                    <label for="contact-type">Contact Type</label>
+                    <select id="contact-type">
+                        <option value="emergency">Emergency</option>
+                        <option value="family">Family</option>
+                        <option value="friend">Friend</option>
+                        <option value="official">Official</option>
+                    </select>
+                    <div class="button-row">
+                        <button class="btn btn-primary flex-1" onclick="addContact()">Save</button>
+                        <button class="btn btn-secondary flex-1" onclick="cancelAddContact()">Cancel</button>
+                    </div>
+                </div>
+
+                <div id="contacts-list" class="contacts-list">
+                    <div class="placeholder">No contacts yet</div>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="tab-content">
+                <div class="tab-header">
+                    <h2>Profile</h2>
+                </div>
+                <div id="profile-info" class="profile-card">
+                    <div class="profile-field">
+                        <label>Name</label>
+                        <p id="profile-name">Loading...</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Phone</label>
+                        <p id="profile-phone">Loading...</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Email</label>
+                        <p id="profile-email">Loading...</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Status</label>
+                        <p id="profile-status">Online</p>
+                    </div>
+                    <button class="btn btn-secondary btn-block" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Toast -->
+        <div id="notification" class="notification"></div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/phone.js') }}"></script>
+</body>
+</html>
