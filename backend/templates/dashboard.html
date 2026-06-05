@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NexAlert Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <span>📡</span>
+    <h2>NexAlert</h2>
+    <small>Dashboard v3.0</small>
+  </div>
+
+  <div class="stat-cards">
+    <div class="stat-card">
+      <span class="stat-val" id="stat-users">0</span>
+      <span class="stat-label">Users Online</span>
+    </div>
+    <div class="stat-card alert-card">
+      <span class="stat-val" id="stat-alerts">0</span>
+      <span class="stat-label">Active Alerts</span>
+    </div>
+  </div>
+
+  <!-- Environmental Sensors -->
+  <div class="sidebar-section">
+    <h3>🌡️ Sensors</h3>
+    <div class="env-grid">
+      <div class="env-item"><span id="env-temp">—</span><small>Temp °C</small></div>
+      <div class="env-item"><span id="env-hum">—</span><small>Humidity %</small></div>
+      <div class="env-item"><span id="env-aq">—</span><small>Air Quality</small></div>
+      <div class="env-item"><span id="env-batt">—</span><small>Battery V</small></div>
+      <div class="env-item"><span id="env-solar">—</span><small>Solar V</small></div>
+    </div>
+  </div>
+
+  <!-- Active Alerts -->
+  <div class="sidebar-section">
+    <h3>🚨 Active Alerts</h3>
+    <div id="alerts-list" class="alerts-list">
+      <p class="empty-state">No active alerts</p>
+    </div>
+  </div>
+
+  <!-- Users -->
+  <div class="sidebar-section">
+    <h3>👥 Network Users</h3>
+    <div id="users-list" class="users-list"></div>
+  </div>
+
+  <!-- Broadcast -->
+  <div class="sidebar-section">
+    <h3>📢 Broadcast</h3>
+    <textarea id="broadcast-msg" rows="3" placeholder="Announcement to all users…"></textarea>
+    <button class="btn-broadcast" onclick="broadcastMessage()">Send to All</button>
+  </div>
+</aside>
+
+<main class="map-area">
+  <div id="map"></div>
+  <div class="map-legend" id="map-legend"></div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // Pass alert types from Flask to JS
+  const ALERT_TYPES = {{ alert_types | tojson }};
+</script>
+<script src="/static/js/dashboard.js"></script>
+</body>
+</html>

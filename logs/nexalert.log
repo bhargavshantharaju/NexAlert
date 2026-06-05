@@ -1,0 +1,461 @@
+2026-06-05 09:14:48,155 [INFO] Database initialised at C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\backend\..\database\nexalert.db
+2026-06-05 09:14:48,156 [INFO] NexAlert v3.0 starting on 0.0.0.0:5000
+2026-06-05 09:14:48,212 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.250.3.244:5000
+2026-06-05 09:14:48,213 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-05 09:14:54,202 [INFO] 127.0.0.1 - - [05/Jun/2026 09:14:54] "GET /dashboard HTTP/1.1" 200 -
+2026-06-05 09:14:54,373 [INFO] 127.0.0.1 - - [05/Jun/2026 09:14:54] "GET /static/css/dashboard.css HTTP/1.1" 200 -
+2026-06-05 09:14:54,459 [INFO] 127.0.0.1 - - [05/Jun/2026 09:14:54] "GET /static/js/dashboard.js HTTP/1.1" 200 -
+2026-06-05 09:14:54,785 [INFO] 127.0.0.1 - - [05/Jun/2026 09:14:54] "GET /socket.io/?EIO=4&transport=polling&t=PwLuaJB HTTP/1.1" 200 -
+2026-06-05 09:14:54,800 [INFO] 127.0.0.1 - - [05/Jun/2026 09:14:54] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:14:54,816 [INFO] 127.0.0.1 - - [05/Jun/2026 09:14:54] "[33mGET /api/environmental HTTP/1.1[0m" 404 -
+2026-06-05 09:14:54,819 [INFO] 127.0.0.1 - - [05/Jun/2026 09:14:54] "GET /api/alerts HTTP/1.1" 200 -
+2026-06-05 09:14:55,049 [INFO] 127.0.0.1 - - [05/Jun/2026 09:14:55] "POST /socket.io/?EIO=4&transport=polling&t=PwLuaOK&sid=3qfnaCDkBTgSf6N9AAAA HTTP/1.1" 200 -
+2026-06-05 09:14:55,120 [INFO] 127.0.0.1 - - [05/Jun/2026 09:14:55] "GET /socket.io/?EIO=4&transport=polling&t=PwLuaOL&sid=3qfnaCDkBTgSf6N9AAAA HTTP/1.1" 200 -
+2026-06-05 09:14:55,123 [INFO] 127.0.0.1 - - [05/Jun/2026 09:14:55] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-06-05 09:15:14,548 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:14] "GET / HTTP/1.1" 200 -
+2026-06-05 09:15:14,852 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:14] "GET /static/css/phone.css HTTP/1.1" 200 -
+2026-06-05 09:15:14,920 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:14] "GET /static/js/phone.js HTTP/1.1" 200 -
+2026-06-05 09:15:19,291 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:19] "[35m[1mPOST /api/register HTTP/1.1[0m" 201 -
+2026-06-05 09:15:19,547 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:19] "GET /socket.io/?username=VENOM&EIO=4&transport=polling&t=PwLugN1 HTTP/1.1" 200 -
+2026-06-05 09:15:19,656 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:19] "GET /api/messages?username=VENOM HTTP/1.1" 200 -
+2026-06-05 09:15:19,663 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:19] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:15:19,664 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:19] "GET /api/alerts HTTP/1.1" 200 -
+2026-06-05 09:15:19,693 [ERROR] message handler error
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 854, in _handle_event
+    ret = handler(auth)
+TypeError: on_connect() takes 0 positional arguments but 1 was given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 541, in _handle_connect
+    success = self._trigger_event(
+        'connect', namespace, sid, self.environ[eio_sid])
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 623, in _trigger_event
+    return handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 856, in _handle_event
+    ret = handler()
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\backend\app.py", line 531, in on_connect
+    socketio.emit("user_online", {"username": username}, broadcast=True)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 486, in emit
+    self.server.emit(event, *args, namespace=namespace, to=to,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     skip_sid=skip_sid, callback=callback, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Server.emit() got an unexpected keyword argument 'broadcast'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 854, in _handle_event
+    ret = handler(auth)
+TypeError: on_connect() takes 0 positional arguments but 1 was given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\engineio\server.py", line 452, in run_handler
+    return self.handlers[event](*args)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 658, in _handle_eio_message
+    self._handle_connect(eio_sid, pkt.namespace, pkt.data)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 544, in _handle_connect
+    success = self._trigger_event(
+        'connect', namespace, sid, self.environ[eio_sid], None)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 623, in _trigger_event
+    return handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 856, in _handle_event
+    ret = handler()
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\backend\app.py", line 531, in on_connect
+    socketio.emit("user_online", {"username": username}, broadcast=True)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 486, in emit
+    self.server.emit(event, *args, namespace=namespace, to=to,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     skip_sid=skip_sid, callback=callback, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Server.emit() got an unexpected keyword argument 'broadcast'
+2026-06-05 09:15:19,700 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:19] "POST /socket.io/?username=VENOM&EIO=4&transport=polling&t=PwLugQz&sid=BZtkGzql5RBsUs2BAAAC HTTP/1.1" 200 -
+2026-06-05 09:15:19,859 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:19] "GET /socket.io/?username=VENOM&EIO=4&transport=polling&t=PwLugQ-&sid=BZtkGzql5RBsUs2BAAAC HTTP/1.1" 200 -
+2026-06-05 09:15:25,211 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:25] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:15:26,116 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:26] "POST /api/location HTTP/1.1" 200 -
+2026-06-05 09:15:28,554 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:28] "[35m[1mPOST /api/messages HTTP/1.1[0m" 201 -
+2026-06-05 09:15:41,591 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:41] "POST /api/location HTTP/1.1" 200 -
+2026-06-05 09:15:44,934 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:44] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:15:45,414 [INFO] SOS from VENOM: accident at (13.1345, 77.5677)
+2026-06-05 09:15:45,418 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:45] "[35m[1mPOST /api/sos HTTP/1.1[0m" 201 -
+2026-06-05 09:15:46,884 [INFO] SOS from VENOM: accident at (13.1345, 77.5677)
+2026-06-05 09:15:46,887 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:46] "[35m[1mPOST /api/sos HTTP/1.1[0m" 201 -
+2026-06-05 09:15:47,628 [INFO] SOS from VENOM: accident at (13.1345, 77.5677)
+2026-06-05 09:15:47,632 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:47] "[35m[1mPOST /api/sos HTTP/1.1[0m" 201 -
+2026-06-05 09:15:47,822 [INFO] SOS from VENOM: accident at (13.1345, 77.5677)
+2026-06-05 09:15:47,825 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:47] "[35m[1mPOST /api/sos HTTP/1.1[0m" 201 -
+2026-06-05 09:15:48,519 [INFO] SOS from VENOM: accident at (13.1345, 77.5677)
+2026-06-05 09:15:48,522 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:48] "[35m[1mPOST /api/sos HTTP/1.1[0m" 201 -
+2026-06-05 09:15:54,801 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:54] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:15:54,810 [INFO] 127.0.0.1 - - [05/Jun/2026 09:15:54] "[33mGET /api/environmental HTTP/1.1[0m" 404 -
+2026-06-05 09:16:05,190 [INFO] 127.0.0.1 - - [05/Jun/2026 09:16:05] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:16:05,712 [INFO] 127.0.0.1 - - [05/Jun/2026 09:16:05] "POST /api/location HTTP/1.1" 200 -
+2026-06-05 09:16:09,046 [INFO] 127.0.0.1 - - [05/Jun/2026 09:16:09] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:16:15,507 [INFO] 127.0.0.1 - - [05/Jun/2026 09:16:15] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:16:25,211 [INFO] 127.0.0.1 - - [05/Jun/2026 09:16:25] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:16:45,518 [INFO] 127.0.0.1 - - [05/Jun/2026 09:16:45] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:16:55,207 [INFO] 127.0.0.1 - - [05/Jun/2026 09:16:55] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:16:55,519 [INFO] 127.0.0.1 - - [05/Jun/2026 09:16:55] "[33mGET /api/environmental HTTP/1.1[0m" 404 -
+2026-06-05 09:17:15,516 [INFO] 127.0.0.1 - - [05/Jun/2026 09:17:15] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:17:25,220 [INFO] 127.0.0.1 - - [05/Jun/2026 09:17:25] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:17:45,513 [INFO] 127.0.0.1 - - [05/Jun/2026 09:17:45] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:17:55,214 [INFO] 127.0.0.1 - - [05/Jun/2026 09:17:55] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:17:55,521 [INFO] 127.0.0.1 - - [05/Jun/2026 09:17:55] "[33mGET /api/environmental HTTP/1.1[0m" 404 -
+2026-06-05 09:18:15,518 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:15] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:18:25,203 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:25] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:18:45,529 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:45] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:18:45,660 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:45] "GET /socket.io/?EIO=4&transport=websocket&sid=3qfnaCDkBTgSf6N9AAAA HTTP/1.1" 200 -
+2026-06-05 09:18:45,774 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:45] "GET /dashboard HTTP/1.1" 200 -
+2026-06-05 09:18:45,990 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:45] "[36mGET /static/css/dashboard.css HTTP/1.1[0m" 304 -
+2026-06-05 09:18:46,115 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:46] "[36mGET /static/js/dashboard.js HTTP/1.1[0m" 304 -
+2026-06-05 09:18:46,132 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:46] "GET /socket.io/?EIO=4&transport=polling&t=PwLvSsi HTTP/1.1" 200 -
+2026-06-05 09:18:46,442 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:46] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:18:46,466 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:46] "[33mGET /api/environmental HTTP/1.1[0m" 404 -
+2026-06-05 09:18:46,466 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:46] "GET /socket.io/?EIO=4&transport=polling&t=PwLvSt2&sid=1K67kSV6-n7H3jSQAAAE HTTP/1.1" 200 -
+2026-06-05 09:18:46,478 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:46] "GET /api/alerts HTTP/1.1" 200 -
+2026-06-05 09:18:46,493 [ERROR] message handler error
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 854, in _handle_event
+    ret = handler(auth)
+TypeError: on_connect() takes 0 positional arguments but 1 was given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 541, in _handle_connect
+    success = self._trigger_event(
+        'connect', namespace, sid, self.environ[eio_sid])
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 623, in _trigger_event
+    return handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 856, in _handle_event
+    ret = handler()
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\backend\app.py", line 531, in on_connect
+    socketio.emit("user_online", {"username": username}, broadcast=True)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 486, in emit
+    self.server.emit(event, *args, namespace=namespace, to=to,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     skip_sid=skip_sid, callback=callback, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Server.emit() got an unexpected keyword argument 'broadcast'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 854, in _handle_event
+    ret = handler(auth)
+TypeError: on_connect() takes 0 positional arguments but 1 was given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\engineio\server.py", line 452, in run_handler
+    return self.handlers[event](*args)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 658, in _handle_eio_message
+    self._handle_connect(eio_sid, pkt.namespace, pkt.data)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 544, in _handle_connect
+    success = self._trigger_event(
+        'connect', namespace, sid, self.environ[eio_sid], None)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 623, in _trigger_event
+    return handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 856, in _handle_event
+    ret = handler()
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\backend\app.py", line 531, in on_connect
+    socketio.emit("user_online", {"username": username}, broadcast=True)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 486, in emit
+    self.server.emit(event, *args, namespace=namespace, to=to,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     skip_sid=skip_sid, callback=callback, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Server.emit() got an unexpected keyword argument 'broadcast'
+2026-06-05 09:18:46,498 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:46] "POST /socket.io/?EIO=4&transport=polling&t=PwLvSt1&sid=1K67kSV6-n7H3jSQAAAE HTTP/1.1" 200 -
+2026-06-05 09:18:58,726 [INFO] 127.0.0.1 - - [05/Jun/2026 09:18:58] "POST /api/location HTTP/1.1" 200 -
+2026-06-05 09:19:04,983 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:04] "GET / HTTP/1.1" 200 -
+2026-06-05 09:19:05,288 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:05] "[36mGET /static/css/phone.css HTTP/1.1[0m" 304 -
+2026-06-05 09:19:05,342 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:05] "[36mGET /static/js/phone.js HTTP/1.1[0m" 304 -
+2026-06-05 09:19:15,514 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:15] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:19:16,204 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:16] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:19:26,671 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:26] "[35m[1mPOST /api/register HTTP/1.1[0m" 201 -
+2026-06-05 09:19:26,932 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:26] "GET /socket.io/?username=Bhargav&EIO=4&transport=polling&t=PwLvcmM HTTP/1.1" 200 -
+2026-06-05 09:19:27,001 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:27] "GET /api/messages?username=Bhargav HTTP/1.1" 200 -
+2026-06-05 09:19:27,004 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:27] "GET /api/alerts HTTP/1.1" 200 -
+2026-06-05 09:19:27,005 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:27] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:19:27,025 [ERROR] message handler error
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 854, in _handle_event
+    ret = handler(auth)
+TypeError: on_connect() takes 0 positional arguments but 1 was given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 541, in _handle_connect
+    success = self._trigger_event(
+        'connect', namespace, sid, self.environ[eio_sid])
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 623, in _trigger_event
+    return handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 856, in _handle_event
+    ret = handler()
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\backend\app.py", line 531, in on_connect
+    socketio.emit("user_online", {"username": username}, broadcast=True)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 486, in emit
+    self.server.emit(event, *args, namespace=namespace, to=to,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     skip_sid=skip_sid, callback=callback, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Server.emit() got an unexpected keyword argument 'broadcast'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 854, in _handle_event
+    ret = handler(auth)
+TypeError: on_connect() takes 0 positional arguments but 1 was given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\engineio\server.py", line 452, in run_handler
+    return self.handlers[event](*args)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 658, in _handle_eio_message
+    self._handle_connect(eio_sid, pkt.namespace, pkt.data)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 544, in _handle_connect
+    success = self._trigger_event(
+        'connect', namespace, sid, self.environ[eio_sid], None)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 623, in _trigger_event
+    return handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 856, in _handle_event
+    ret = handler()
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\backend\app.py", line 531, in on_connect
+    socketio.emit("user_online", {"username": username}, broadcast=True)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 486, in emit
+    self.server.emit(event, *args, namespace=namespace, to=to,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     skip_sid=skip_sid, callback=callback, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Server.emit() got an unexpected keyword argument 'broadcast'
+2026-06-05 09:19:27,029 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:27] "POST /socket.io/?username=Bhargav&EIO=4&transport=polling&t=PwLvcqM&sid=2KjNV15oTYXC0ClWAAAG HTTP/1.1" 200 -
+2026-06-05 09:19:27,247 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:27] "GET /socket.io/?username=Bhargav&EIO=4&transport=polling&t=PwLvcqM.0&sid=2KjNV15oTYXC0ClWAAAG HTTP/1.1" 200 -
+2026-06-05 09:19:31,487 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:31] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:19:32,182 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:32] "POST /api/location HTTP/1.1" 200 -
+2026-06-05 09:19:35,363 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:35] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:19:41,558 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:41] "[35m[1mPOST /api/messages HTTP/1.1[0m" 201 -
+2026-06-05 09:19:44,936 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:44] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:19:46,520 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:46] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:19:46,527 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:46] "[33mGET /api/environmental HTTP/1.1[0m" 404 -
+2026-06-05 09:19:46,987 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:46] "POST /api/location HTTP/1.1" 200 -
+2026-06-05 09:19:51,038 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:51] "[35m[1mPOST /api/messages HTTP/1.1[0m" 201 -
+2026-06-05 09:19:56,245 [INFO] 127.0.0.1 - - [05/Jun/2026 09:19:56] "POST /api/location HTTP/1.1" 200 -
+2026-06-05 09:20:01,940 [INFO] 127.0.0.1 - - [05/Jun/2026 09:20:01] "POST /api/location HTTP/1.1" 200 -
+2026-06-05 09:20:05,356 [INFO] 127.0.0.1 - - [05/Jun/2026 09:20:05] "GET /api/users HTTP/1.1" 200 -
+2026-06-05 09:20:05,694 [ERROR] disconnect handler error
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 623, in _trigger_event
+    return handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 858, in _handle_event
+    ret = handler(*args)
+TypeError: on_disconnect() takes 0 positional arguments but 1 was given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\engineio\server.py", line 452, in run_handler
+    return self.handlers[event](*args)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 680, in _handle_eio_disconnect
+    self._handle_disconnect(eio_sid, n, reason)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 574, in _handle_disconnect
+    self._trigger_event('disconnect', namespace, sid,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        reason or self.reason.CLIENT_DISCONNECT)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 627, in _trigger_event
+    return handler(*args[:-1])
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 858, in _handle_event
+    ret = handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\backend\app.py", line 547, in on_disconnect
+    socketio.emit("user_offline", {"username": username}, broadcast=True)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 486, in emit
+    self.server.emit(event, *args, namespace=namespace, to=to,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     skip_sid=skip_sid, callback=callback, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Server.emit() got an unexpected keyword argument 'broadcast'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\engineio\server.py", line 458, in run_handler
+    return self.handlers[event](args[0])
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+TypeError: Server._handle_eio_disconnect() missing 1 required positional argument: 'reason'
+2026-06-05 09:20:05,699 [INFO] 127.0.0.1 - - [05/Jun/2026 09:20:05] "GET /socket.io/?EIO=4&transport=websocket&sid=1K67kSV6-n7H3jSQAAAE HTTP/1.1" 200 -
+2026-06-05 09:20:06,292 [ERROR] disconnect handler error
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 623, in _trigger_event
+    return handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 858, in _handle_event
+    ret = handler(*args)
+TypeError: on_disconnect() takes 0 positional arguments but 1 was given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\engineio\server.py", line 452, in run_handler
+    return self.handlers[event](*args)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 680, in _handle_eio_disconnect
+    self._handle_disconnect(eio_sid, n, reason)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 574, in _handle_disconnect
+    self._trigger_event('disconnect', namespace, sid,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        reason or self.reason.CLIENT_DISCONNECT)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 627, in _trigger_event
+    return handler(*args[:-1])
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 858, in _handle_event
+    ret = handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\backend\app.py", line 547, in on_disconnect
+    socketio.emit("user_offline", {"username": username}, broadcast=True)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 486, in emit
+    self.server.emit(event, *args, namespace=namespace, to=to,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     skip_sid=skip_sid, callback=callback, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Server.emit() got an unexpected keyword argument 'broadcast'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\engineio\server.py", line 458, in run_handler
+    return self.handlers[event](args[0])
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+TypeError: Server._handle_eio_disconnect() missing 1 required positional argument: 'reason'
+2026-06-05 09:20:06,296 [INFO] 127.0.0.1 - - [05/Jun/2026 09:20:06] "GET /socket.io/?username=VENOM&EIO=4&transport=websocket&sid=BZtkGzql5RBsUs2BAAAC HTTP/1.1" 200 -
+2026-06-05 09:20:06,819 [ERROR] disconnect handler error
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 623, in _trigger_event
+    return handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 858, in _handle_event
+    ret = handler(*args)
+TypeError: on_disconnect() takes 0 positional arguments but 1 was given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\engineio\server.py", line 452, in run_handler
+    return self.handlers[event](*args)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 680, in _handle_eio_disconnect
+    self._handle_disconnect(eio_sid, n, reason)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 574, in _handle_disconnect
+    self._trigger_event('disconnect', namespace, sid,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        reason or self.reason.CLIENT_DISCONNECT)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\socketio\server.py", line 627, in _trigger_event
+    return handler(*args[:-1])
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 306, in _handler
+    return self._handle_event(handler, message, real_ns, sid,
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                              *args)
+                              ^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 858, in _handle_event
+    ret = handler(*args)
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\backend\app.py", line 547, in on_disconnect
+    socketio.emit("user_offline", {"username": username}, broadcast=True)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\flask_socketio\__init__.py", line 486, in emit
+    self.server.emit(event, *args, namespace=namespace, to=to,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     skip_sid=skip_sid, callback=callback, **kwargs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Server.emit() got an unexpected keyword argument 'broadcast'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Bhargav S Raj\Desktop\IDP presentation\nexalert_windows\venv\Lib\site-packages\engineio\server.py", line 458, in run_handler
+    return self.handlers[event](args[0])
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+TypeError: Server._handle_eio_disconnect() missing 1 required positional argument: 'reason'
+2026-06-05 09:20:06,823 [INFO] 127.0.0.1 - - [05/Jun/2026 09:20:06] "GET /socket.io/?username=Bhargav&EIO=4&transport=websocket&sid=2KjNV15oTYXC0ClWAAAG HTTP/1.1" 200 -

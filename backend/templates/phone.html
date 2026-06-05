@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>NexAlert – Emergency Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/phone.css">
+</head>
+<body>
+
+<!-- REGISTRATION SCREEN -->
+<div id="reg-screen" class="screen active">
+  <div class="reg-card">
+    <div class="logo">
+      <span class="logo-icon">📡</span>
+      <h1>NexAlert</h1>
+      <p class="tagline">Offline Emergency Network</p>
+    </div>
+    <div class="field-group">
+      <label>Full Name</label>
+      <input type="text" id="reg-name" placeholder="Ravi Kumar" autocomplete="name">
+    </div>
+    <div class="field-group">
+      <label>Phone Number</label>
+      <input type="tel" id="reg-phone" placeholder="+91 98765 43210" autocomplete="tel">
+    </div>
+    <div class="field-group">
+      <label>Username</label>
+      <input type="text" id="reg-username" placeholder="ravi_k" autocomplete="username">
+    </div>
+    <button class="btn-primary" onclick="register()">Join Network</button>
+    <p id="reg-error" class="error-msg"></p>
+  </div>
+</div>
+
+<!-- MAIN APP SCREEN -->
+<div id="app-screen" class="screen">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <span class="signal-icon">📡</span>
+      <span id="user-display">—</span>
+    </div>
+    <div class="header-right">
+      <span class="online-badge" id="online-count">0 online</span>
+    </div>
+  </header>
+
+  <!-- Tab content -->
+  <main class="tab-content">
+
+    <!-- CHAT TAB -->
+    <div id="tab-chat" class="tab-panel active">
+      <div class="chat-toolbar">
+        <select id="chat-recipient" class="recipient-select">
+          <option value="">📢 Broadcast to All</option>
+        </select>
+      </div>
+      <div id="messages-container" class="messages-list"></div>
+      <div class="chat-input-bar">
+        <input type="text" id="msg-input" placeholder="Type message…" maxlength="500"
+               onkeydown="if(event.key==='Enter') sendMessage()">
+        <button class="btn-send" onclick="sendMessage()">▶</button>
+      </div>
+    </div>
+
+    <!-- SOS TAB -->
+    <div id="tab-sos" class="tab-panel">
+      <div class="sos-header">
+        <div class="sos-pulse-ring"></div>
+        <h2>🚨 SOS Alert</h2>
+        <p>Select emergency type and send immediately</p>
+      </div>
+      <div class="sos-grid" id="sos-grid">
+        <!-- Populated by JS from ALERT_TYPES -->
+      </div>
+      <div class="field-group" style="margin-top:16px;">
+        <label>Description (optional)</label>
+        <textarea id="sos-desc" rows="3" placeholder="Add details to help responders…"></textarea>
+      </div>
+      <p id="sos-status" class="sos-status"></p>
+    </div>
+
+    <!-- CONTACTS TAB -->
+    <div id="tab-contacts" class="tab-panel">
+      <div class="contacts-toolbar">
+        <button class="filter-btn active" onclick="filterContacts('all')">All</button>
+        <button class="filter-btn" onclick="filterContacts('online')">Online</button>
+        <button class="filter-btn" onclick="filterContacts('network')">On Network</button>
+      </div>
+      <div id="contacts-list" class="contacts-list">
+        <p class="empty-state">No contacts synced yet</p>
+      </div>
+      <button class="btn-secondary" onclick="loadContacts()">↻ Refresh Network</button>
+    </div>
+
+  </main>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" onclick="switchTab('chat',this)">
+      <span>💬</span><small>Chat</small>
+    </button>
+    <button class="nav-btn sos-nav" onclick="switchTab('sos',this)">
+      <span>🚨</span><small>SOS</small>
+    </button>
+    <button class="nav-btn" onclick="switchTab('contacts',this)">
+      <span>👥</span><small>Contacts</small>
+    </button>
+  </nav>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+<script src="/static/js/phone.js"></script>
+</body>
+</html>
